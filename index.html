@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>upload</title>
+</head>
+<body>
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="data" />
+    <input type="submit" name="submit" />
+  </form>
+  <script>
+    $("form").on('submit', function( evt ){
+      evt.preventDefault();
+
+      var files = $("input[name='data']").get(0).files;
+
+      if ( files.length ) {
+        var formData = new FormData();
+        formData.append("data",files[0]);
+        $.ajax("/upload", {
+          type: 'POST',
+          processData:false,
+          //contentType:"multipart/form-data; boundary=----WebKitFormBoundaryfNfAWwBYP54eOWim",
+          contentType: false,
+          data:formData,
+          dataType:"text",
+          success:function(data){
+            alert(data);
+          },
+        });
+      } else {
+        alert("no file");
+      }
+    });
+  </script>
+</body>
+</html>
+
